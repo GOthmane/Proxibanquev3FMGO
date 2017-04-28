@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<!-- <link type="text/css" rel="stylesheet" href="themes/bluesky/skin.css" /> -->
+</h:head>
+
+<h:body>
+
+	<center>
+		<h:form id="formDataTable">
+			<!-- 			<p:panel header="Users Search Form" style="width: 700;"> -->
+			<!-- 				<h:form> -->
+			<!-- 					<h:panelGrid columns="3" cellpadding="2"> -->
+			<!-- 						<h:outputLabel for="#{userManagedBean.searchUser}" -->
+			<!-- 							value="UserName" /> -->
+			<!-- 						<h:inputText value="#{userManagedBean.searchUser}" -->
+			<!-- 							label="UserName"></h:inputText> -->
+			<!-- 						<h:commandButton type="submit" value="Search" -->
+			<!-- 							action="#{userManagedBean.searchUser()}"></h:commandButton> -->
+			<!-- 					</h:panelGrid> -->
+			<!-- 				</h:form> -->
+			<!-- 			</p:panel> -->
+
+
+			<p:dataTable var="client" value="#{conseillerBean.listeClients}"
+				selection="#{clientBean.client}" selectionMode="single"
+				style="width: 700"
+				rowKey="#{not empty client.id ? client.id : client.hashCode()}"
+				first="#{client.id}" paginator="true" rows="5" editable="true">
+
+				<p:ajax event="rowSelect" update=":formDataTable:userUpdateForm"
+					listener="#{clientBean.onUserSelect}" />
+
+				<p:column sortBy="#{client.id}" filterBy="#{client.id}">
+					<f:facet name="header">
+						<h:outputText value="Id" />
+					</f:facet>
+					<h:outputText value="#{client.id}" />
+				</p:column>
+				<p:column sortBy="#{client.nom}" filterBy="#{client.nom}">
+					<f:facet name="header">
+						<h:outputText value="Nom" />
+					</f:facet>
+					<h:outputText value="#{client.nom}" />
+				</p:column>
+				<p:column sortBy="#{client.prenom}" filterBy="#{client.prenom}">
+					<f:facet name="header">
+						<h:outputText value="Prenom" />
+					</f:facet>
+					<h:outputText value="#{client.prenom}" />
+				</p:column>
+				<p:column sortBy="#{client.telephone}"
+					filterBy="#{client.telephone}">
+					<f:facet name="header">
+						<h:outputText value="Telephone" />
+					</f:facet>
+					<h:outputText value="#{client.telephone}" />
+				</p:column>
+				<p:column sortBy="#{client.email}" filterBy="#{client.email}">
+					<f:facet name="header">
+						<h:outputText value="email" />
+					</f:facet>
+					<h:outputText value="#{client.email}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">SUPPRIMER</f:facet>
+					<h:commandLink action="#{clientBean.delete}" value="supprimer">
+						<f:setPropertyActionListener value="#{client}"
+							target="#{clientBean.client}" />
+					</h:commandLink>
+				</p:column>
+				<p:column>
+					<f:facet name="header">MODIFIER</f:facet>
+					<h:commandLink action="#{clientBean.maj}" value="modifier">
+						<f:setPropertyActionListener value="#{client}"
+							target="#{clientBean.client}" />
+					</h:commandLink>
+				</p:column>
+
+			</p:dataTable>
+
+			<p:panel id="userDetailsPanelId" header="Client"
+				style="width: 700;" widgetVar="oneUser">
+				<h:panelGrid columns="2" cellpadding="2" id="userUpdateForm"
+					border="0">
+					<h:outputLabel for="#{clientBean.client.id}" value="Id" />
+					<h:inputText value="#{clientBean.client.id}" style="width: 100;"
+						readonly="true"></h:inputText>
+					<h:outputLabel for="#{clientBean.client.nom}" value="Nom" />
+					<h:inputText value="#{clientBean.client.nom}" style="width: 100;"
+						></h:inputText>
+					<h:outputLabel for="#{clientBean.client.prenom}" value="Prenom" />
+					<h:inputText value="#{clientBean.client.prenom}"
+						style="width: 100;" ></h:inputText>
+					<h:outputLabel for="#{clientBean.client.telephone}"
+						value="Telephone" />
+					<h:inputText value="#{clientBean.client.telephone}"
+						style="width: 100;" ></h:inputText>
+					<h:outputLabel for="#{clientBean.client.email}" value="Email" />
+					<h:inputText value="#{clientBean.client.email}" style="width: 100;"
+						></h:inputText>
+					<h:outputLabel for="#{clientBean.coordonnees.numRue}"
+						value="Numéro et rue" />
+					<h:inputText value="#{clientBean.coordonnees.numRue}"
+						style="width: 100;" ></h:inputText>
+					<h:outputLabel for="#{clientBean.coordonnees.cp}"
+						value="Code postal" />
+					<h:inputText value="#{clientBean.coordonnees.cp}"
+						style="width: 100;" ></h:inputText>
+					<h:outputLabel for="#{clientBean.coordonnees.ville}" value="Ville" />
+					<h:inputText value="#{clientBean.coordonnees.ville}"
+						style="width: 100;" ></h:inputText>
+				</h:panelGrid>
+				<h:commandButton type="submit" value="Valider" action="#{clientBean.add}" />
+			</p:panel>
+		</h:form>
+	</center>
+</h:body>
+</html>
